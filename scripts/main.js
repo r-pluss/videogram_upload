@@ -15,6 +15,7 @@ const options = {
 
 const player = videojs('message-recorder', options, readyCB);
 const qrContainer = document.getElementById('qr-code-container');
+const qrURLroot = 'https://r-pluss.github.io/videogram_upload/?msg=';
 const uploadURL = 'https://file.io/?expires=1d';
 
 function createQRCode(uri){
@@ -56,6 +57,8 @@ function upload(blob){
             console.log(JSON.stringify(json));
             if(json.success){
                 console.log(`video available @ ${json.link}`);
+                qrContainer.classList.remove('hidden');
+                createQRCode(`${qrURLroot}json.key`);
             }
         }
     ).catch(
