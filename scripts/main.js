@@ -21,6 +21,9 @@ const uploadURL = 'https://file.io/?expires=1d';
 function createQRCode(uri){
     let qr = document.createElement('div');
     new QRCode(qr, uri);
+    qr.addEventListener('click', function(ev){
+        window.location = uri;
+    });
     qrContainer.appendChild(qr);
 }
 
