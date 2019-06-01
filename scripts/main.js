@@ -29,6 +29,24 @@ function simulateUpload(blob){
     console.log(blob);
     console.log(data);
 }
+
+function upload(blob){
+    let data = new FormData();
+    data.append('file', blob, blob.name);
+    window.fetch(uploadURL, {method: 'POST', body: data}).then(
+        function(response){
+            return response.json();
+        }
+    ).then(
+        function(json){
+            console.log(JSON.stringify(json));
+        }
+    ).catch(
+        function(err){
+            console.log(`An error occurred with the Fetch API: ${err}`);
+        }
+    )
+}
 // error handling
 player.on('deviceError', function() {
     console.log('device error:', player.deviceErrorCode);
@@ -44,5 +62,5 @@ player.on('startRecord', function() {
 player.on('finishRecord', function() {
     // the blob object contains the recorded data that
     // can be downloaded by the user, stored on server etc.
-    simulateUpload(player.recordedData);
+    upload(player.recordedData);
 });
