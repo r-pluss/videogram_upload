@@ -58,7 +58,7 @@ function upload(blob){
             if(json.success){
                 console.log(`video available @ ${json.link}`);
                 qrContainer.classList.remove('hidden');
-                createQRCode(`${qrURLroot}json.key`);
+                createQRCode(`${qrURLroot}${json.key}`);
             }
         }
     ).catch(
