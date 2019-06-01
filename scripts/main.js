@@ -14,12 +14,18 @@ const options = {
 };
 
 const player = videojs('message-recorder', options, readyCB);
-
+const qrContainer = document.getElementById('qr-code-container');
 const uploadURL = 'https://file.io/?expires=1d';
+
+function createQRCode(uri){
+    let qr = document.createElement('div');
+    new QRCode(qr, uri);
+    qrContainer.appendChild(qr);
+}
 
 function loadApp(){
     if(window.location.search.length > 0){
-
+        qrContainer.classList.remove('hidden');
     }else{
         player.el().classList.remove('hidden');
     }
