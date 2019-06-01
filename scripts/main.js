@@ -27,6 +27,7 @@ function simulateUpload(blob){
     data.append('file', blob, blob.name);
     console.log(`uploading recording ${blob.name} to ${uploadURL}.`);
     console.log(blob);
+    console.log(data);
 }
 // error handling
 player.on('deviceError', function() {
@@ -43,5 +44,5 @@ player.on('startRecord', function() {
 player.on('finishRecord', function() {
     // the blob object contains the recorded data that
     // can be downloaded by the user, stored on server etc.
-    console.log('finished recording: ', player.recordedData);
+    simulateUpload(player.recordedData);
 });
