@@ -15,11 +15,19 @@ const options = {
 
 const player = videojs('message-recorder', options, readyCB);
 
+const uploadURL = 'https://file.io/?expires=1';
+
 function readyCB(){
     let msg = `Using video.js ${videojs.VERSION} with videojs-record ${videojs.getPluginVersion('record')} and recordrtc ${RecordRTC.version}`;
     videojs.log(msg);
 }
 
+function simulateUpload(blob){
+    let data = new FormData();
+    data.append('file', blob, blob.name);
+    console.log(`uploading recording ${blob.name} to ${uploadURL}.`);
+    console.log(blob);
+}
 // error handling
 player.on('deviceError', function() {
     console.log('device error:', player.deviceErrorCode);
