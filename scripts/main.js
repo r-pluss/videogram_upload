@@ -15,7 +15,15 @@ const options = {
 
 const player = videojs('message-recorder', options, readyCB);
 
-const uploadURL = 'https://file.io/?expires=1';
+const uploadURL = 'https://file.io/?expires=1d';
+
+function loadApp(){
+    if(window.location.search.length > 0){
+
+    }else{
+        player.el().classList.remove('hidden');
+    }
+}
 
 function readyCB(){
     let msg = `Using video.js ${videojs.VERSION} with videojs-record ${videojs.getPluginVersion('record')} and recordrtc ${RecordRTC.version}`;
@@ -40,6 +48,9 @@ function upload(blob){
     ).then(
         function(json){
             console.log(JSON.stringify(json));
+            if(json.success){
+                console.log(`video available @ ${json.link}`)
+            }
         }
     ).catch(
         function(err){
