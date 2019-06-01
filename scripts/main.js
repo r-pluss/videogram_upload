@@ -49,7 +49,7 @@ function upload(blob){
         function(json){
             console.log(JSON.stringify(json));
             if(json.success){
-                console.log(`video available @ ${json.link}`)
+                console.log(`video available @ ${json.link}`);
             }
         }
     ).catch(
@@ -75,3 +75,5 @@ player.on('finishRecord', function() {
     // can be downloaded by the user, stored on server etc.
     upload(player.recordedData);
 });
+
+loadApp();
