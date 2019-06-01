@@ -1,0 +1,15 @@
+
+body {
+    margin: 0;
+}
+
+main {
+    align-items: center;
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+}
+
+#message-recorder {
+    background-color: #9ab87a;
+}
