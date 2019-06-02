@@ -13,9 +13,11 @@ const options = {
     width: 320
 };
 
+const confirmBtn = document.getElementById('confirm-upload-btn');
 const player = videojs('message-recorder', options, readyCB);
 const qrContainer = document.getElementById('qr-code-container');
 const qrURLroot = 'https://r-pluss.github.io/videogram_upload/?msg=';
+const userRecording = undefined;
 const uploadURL = 'https://file.io/?expires=1d';
 
 function createQRCode(uri){
@@ -33,6 +35,7 @@ function loadApp(){
     }else{
         player.el().classList.remove('hidden');
     }
+    confirmBtn.addEventListener('click', upload, {passive: true});
 }
 
 function readyCB(){
@@ -48,28 +51,32 @@ function simulateUpload(blob){
     console.log(data);
 }
 
-function upload(blob){
-    let data = new FormData();
-    data.append('file', blob, blob.name);
-    window.fetch(uploadURL, {method: 'POST', body: data}).then(
-        function(response){
-            return response.json();
-        }
-    ).then(
-        function(json){
-            console.log(JSON.stringify(json));
-            if(json.success){
-                console.log(`video available @ ${json.link}`);
-                player.el().classList.add('hidden');
-                qrContainer.classList.remove('hidden');
-                createQRCode(`${qrURLroot}${json.key}`);
+function upload(){
+    if(!confirmBtn.classList.contains('hidden')){
+        let data = new FormData();
+        data.append('file', userRecording, userRecording.name);
+        window.fetch(uploadURL, {method: 'POST', body: data}).then(
+            function(response){
+                return response.json();
             }
-        }
-    ).catch(
-        function(err){
-            console.log(`An error occurred with the Fetch API: ${err}`);
-        }
-    )
+        ).then(
+            function(json){
+                console.log(JSON.stringify(json));
+                if(json.success){
+                    console.log(`video available @ ${json.link}`);
+                    player.el().classList.add('hidden');
+                    qrContainer.classList.remove('hidden');
+                    createQRCode(`${qrURLroot}${json.key}`);
+                }
+            }
+        ).catch(
+            function(err){
+                console.log(`An error occurred with the Fetch API: ${err}`);
+            }
+        )
+    }else{
+        console.log('Failed to execute due to confirm button being hidden.');
+    }
 }
 // error handling
 player.on('deviceError', function() {
@@ -86,7 +93,8 @@ player.on('startRecord', function() {
 player.on('finishRecord', function() {
     // the blob object contains the recorded data that
     // can be downloaded by the user, stored on server etc.
-    upload(player.recordedData);
+    userRecording = player.recordedData;
+    confirmBtn.classList.remove('hidden');
 });
 
 loadApp();
