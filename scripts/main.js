@@ -100,7 +100,7 @@ function upload(){
                 console.log(JSON.stringify(json));
                 if(json.success){
                     console.log(`video available @ ${json.link}`);
-                    appElements.recorder.el().classList.add('hidden');
+                    appElements.preRecordElements.classList.add('hidden');
                     appElements.postRecordElements.classList.remove('hidden');
                     createQRCode(`${qrURLroot}${json.key}`);
                 }

@@ -65,6 +65,13 @@ main {
     background-color: #9ab87a;
 }
 
+#pre-record {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 #qr-container {
     align-self: center;
     margin-top: 20px;
