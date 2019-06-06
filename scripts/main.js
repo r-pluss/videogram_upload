@@ -22,6 +22,7 @@ const appElements = {
         'message-playback', options, readyCB
     ) : undefined,
     preRecordElements: document.getElementById('pre-record'),
+    qrContainer: document.getElementById('qr-container'),
     recorder: appMode === recordMode ? videojs(
         'message-recorder', options, readyCB
     ) : undefined,
@@ -100,7 +101,7 @@ function upload(){
                 if(json.success){
                     console.log(`video available @ ${json.link}`);
                     appElements.recorder.el().classList.add('hidden');
-                    appElements.qrContainer.classList.remove('hidden');
+                    appElements.postRecordElements.classList.remove('hidden');
                     createQRCode(`${qrURLroot}${json.key}`);
                 }
             }
