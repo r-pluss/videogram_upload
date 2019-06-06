@@ -17,7 +17,7 @@ const confirmBtn = document.getElementById('confirm-upload-btn');
 const player = videojs('message-recorder', options, readyCB);
 const qrContainer = document.getElementById('qr-code-container');
 const qrURLroot = 'https://r-pluss.github.io/videogram_upload/?msg=';
-const userRecording = undefined;
+let userRecording = undefined;
 const uploadURL = 'https://file.io/?expires=1d';
 
 function createQRCode(uri){
