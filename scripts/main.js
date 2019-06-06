@@ -70,6 +70,7 @@ function loadApp(){
             'click', upload, {passive: true}
         );
     }else{
+        appElements.preRecordElements.classList.add('hidden');
         appElements.playback.el().classList.remove('hidden');
     }
 }
