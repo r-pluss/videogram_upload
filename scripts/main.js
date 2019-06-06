@@ -1,3 +1,6 @@
+const recordMode = 0;
+const playbackMode = 1;
+const appMode = getAppMode();
 const options = {
     controls: true,
     fluid: false,
@@ -13,9 +16,18 @@ const options = {
     width: 320
 };
 
-const confirmBtn = document.getElementById('confirm-upload-btn');
-const player = videojs('message-recorder', options, readyCB);
-const qrContainer = document.getElementById('qr-code-container');
+const appElements = {
+    confirmBtn: document.getElementById('confirm-upload-btn'),
+    playback: appMode === playbackMode ? videojs(
+        'message-playback', options, readyCB
+    ) : undefined,
+    preRecordElements: document.getElementById('pre-record'),
+    recorder: appMode === recordMode ? videojs(
+        'message-recorder', options, readyCB
+    ) : undefined,
+    postRecordElements: document.getElementById('post-record'),
+    nanaLink: document.getElementById('nana-link')
+};
 const qrURLroot = 'https://r-pluss.github.io/videogram_upload/?msg=';
 let userRecording = undefined;
 const uploadURL = 'https://file.io/?expires=1d';
@@ -26,16 +38,39 @@ function createQRCode(uri){
     qr.addEventListener('click', function(ev){
         window.location = uri;
     });
-    qrContainer.appendChild(qr);
+    appElements.qrContainer.appendChild(qr);
+}
+
+function getAppMode(){
+    return window.location.search.length > 0 ? playbackMode : recordMode;
 }
 
 function loadApp(){
-    if(window.location.search.length > 0){
-        qrContainer.classList.remove('hidden');
+    if(appMode === recordMode){
+        // error handling
+        appElements.recorder.on('deviceError', function() {
+            console.log('device error:', appElements.recorder.deviceErrorCode);
+        });
+        appElements.recorder.on('error', function(element, error) {
+            console.error(error);
+        });
+        // user clicked the record button and started recording
+        appElements.recorder.on('startRecord', function() {
+            console.log('started recording!');
+        });
+        // user completed recording and stream is available
+        appElements.recorder.on('finishRecord', function() {
+            // the blob object contains the recorded data that
+            // can be downloaded by the user, stored on server etc.
+            userRecording = appElements.recorder.recordedData;
+            appElements.confirmBtn.classList.remove('hidden');
+        });
+        appElements.confirmBtn.addEventListener(
+            'click', upload, {passive: true}
+        );
     }else{
-        player.el().classList.remove('hidden');
+        appElements.playback.el().classList.remove('hidden');
     }
-    confirmBtn.addEventListener('click', upload, {passive: true});
 }
 
 function readyCB(){
@@ -52,7 +87,7 @@ function simulateUpload(blob){
 }
 
 function upload(){
-    if(!confirmBtn.classList.contains('hidden')){
+    if(!appElements.confirmBtn.classList.contains('hidden')){
         let data = new FormData();
         data.append('file', userRecording, userRecording.name);
         window.fetch(uploadURL, {method: 'POST', body: data}).then(
@@ -64,8 +99,8 @@ function upload(){
                 console.log(JSON.stringify(json));
                 if(json.success){
                     console.log(`video available @ ${json.link}`);
-                    player.el().classList.add('hidden');
-                    qrContainer.classList.remove('hidden');
+                    appElements.recorder.el().classList.add('hidden');
+                    appElements.qrContainer.classList.remove('hidden');
                     createQRCode(`${qrURLroot}${json.key}`);
                 }
             }
@@ -78,23 +113,6 @@ function upload(){
         console.log('Failed to execute due to confirm button being hidden.');
     }
 }
-// error handling
-player.on('deviceError', function() {
-    console.log('device error:', player.deviceErrorCode);
-});
-player.on('error', function(element, error) {
-    console.error(error);
-});
-// user clicked the record button and started recording
-player.on('startRecord', function() {
-    console.log('started recording!');
-});
-// user completed recording and stream is available
-player.on('finishRecord', function() {
-    // the blob object contains the recorded data that
-    // can be downloaded by the user, stored on server etc.
-    userRecording = player.recordedData;
-    confirmBtn.classList.remove('hidden');
-});
+
 
 loadApp();

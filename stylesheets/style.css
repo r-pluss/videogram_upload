@@ -11,9 +11,68 @@ main {
     justify-content: center;
 }
 
+.demo-card {
+    display: grid;
+    background-color: #d9ffed;
+    border: 10px solid #dadada;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    padding: 10px 10px 0px;
+    max-width: 40%;
+}
+
+.demo-text {
+    font-family: 'Architects Daughter', cursive;
+}
+
 .hidden {
     display: none;
 }
+
+.left-fold {
+    align-items: center;
+    display: flex;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.6rem;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.nana-link {
+    color: blue;
+}
+
+.nana-text {
+    align-self: flex-end;
+    font-size: 0.55rem;
+    margin-top: 40px;
+    text-align: right;
+    width: 60%;
+}
+
+.qr-code {
+    background-color: red;
+    height: 256px;
+    width: 256px;
+}
+
+.qr-container {
+    align-self: center;
+    margin-top: 20px;
+    border: 3px solid #211d35;
+}
+
+.right-fold {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name {
+    color: #ef45a9;
+    font-weight: 600;
+}
+
 
 #message-recorder {
     background-color: #9ab87a;
