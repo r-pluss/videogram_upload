@@ -64,6 +64,10 @@ main {
     font-weight: 600;
 }
 
+#confirm-upload-btn {
+    margin-top: 15px;
+}
+
 #message-recorder {
     background-color: #9ab87a;
 }
