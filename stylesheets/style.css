@@ -17,8 +17,8 @@ main {
     border: 10px solid #dadada;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr;
+    max-width: 70vw;
     padding: 10px 10px 0px;
-    max-width: 40%;
 }
 
 .demo-text {
