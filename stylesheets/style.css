@@ -23,6 +23,9 @@ main {
 
 .demo-text {
     font-family: 'Architects Daughter', cursive;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-align: center;
 }
 
 .hidden {
