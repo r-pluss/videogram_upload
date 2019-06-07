@@ -29,6 +29,8 @@ const appElements = {
     postRecordElements: document.getElementById('post-record'),
     nanaLink: document.getElementById('nana-link')
 };
+const playbackURL = appMode === playbackMode ?
+    `https://file.io/${getMessageId()}` : undefined;
 const qrURLroot = 'https://r-pluss.github.io/videogram_upload/?msg=';
 let userRecording = undefined;
 const uploadURL = 'https://file.io/?expires=1d';
@@ -44,6 +46,10 @@ function createQRCode(uri){
 
 function getAppMode(){
     return window.location.search.length > 0 ? playbackMode : recordMode;
+}
+
+function getMessageId(){
+    return window.location.search.split('?msg=')[1];
 }
 
 function loadApp(){
@@ -70,8 +76,19 @@ function loadApp(){
             'click', upload, {passive: true}
         );
     }else{
+        let src = document.createElement('source');
+        src.setAttribute('src', playbackURL);
+        src.setAttribute('type', 'video/webm');
+        appElements.playback.el().appendChild(src);
         appElements.preRecordElements.classList.add('hidden');
         appElements.playback.el().classList.remove('hidden');
+        // error handling
+        appElements.playback.on('deviceError', function() {
+            console.log('device error:', appElements.playback.deviceErrorCode);
+        });
+        appElements.playback.on('error', function(element, error) {
+            console.error(error);
+        });
     }
 }
 
