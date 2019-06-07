@@ -16,6 +16,7 @@ const recorderOptions = {
     width: 320
 };
 const playbackOptions = {
+    autoplay: 'play',
     controls: true,
     height: 480,
     width: 640
