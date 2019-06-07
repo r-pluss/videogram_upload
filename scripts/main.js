@@ -76,10 +76,7 @@ function loadApp(){
             'click', upload, {passive: true}
         );
     }else{
-        let src = document.createElement('source');
-        src.setAttribute('src', playbackURL);
-        src.setAttribute('type', 'video/webm');
-        appElements.playback.el().appendChild(src);
+        appElements.playback.src({src: playbackURL,type: 'video/webm'});
         appElements.preRecordElements.classList.add('hidden');
         appElements.playback.el().classList.remove('hidden');
         // error handling
