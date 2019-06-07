@@ -1,7 +1,7 @@
 const recordMode = 0;
 const playbackMode = 1;
 const appMode = getAppMode();
-const options = {
+const recorderOptions = {
     controls: true,
     fluid: false,
     height: 240,
@@ -15,16 +15,21 @@ const options = {
     },
     width: 320
 };
+const playbackOptions = {
+    controls: true,
+    height: 480,
+    width: 640
+};
 
 const appElements = {
     confirmBtn: document.getElementById('confirm-upload-btn'),
     playback: appMode === playbackMode ? videojs(
-        'message-playback', options, readyCB
+        'message-playback', playbackOptions, readyCB
     ) : undefined,
     preRecordElements: document.getElementById('pre-record'),
     qrContainer: document.getElementById('qr-container'),
     recorder: appMode === recordMode ? videojs(
-        'message-recorder', options, readyCB
+        'message-recorder', recorderOptions, readyCB
     ) : undefined,
     postRecordElements: document.getElementById('post-record'),
     nanaLink: document.getElementById('nana-link')
