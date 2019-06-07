@@ -42,10 +42,6 @@ main {
     text-align: center;
 }
 
-.nana-link {
-    color: blue;
-}
-
 .nana-text {
     align-self: flex-end;
     font-size: 0.55rem;
@@ -70,6 +66,10 @@ main {
 
 #message-recorder {
     background-color: #9ab87a;
+}
+
+#nana-link {
+    color: blue;
 }
 
 #pre-record {
